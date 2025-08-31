@@ -1,4 +1,4 @@
-# TinyURL — System Design (README)
+# TinyURL — System Design
 
 A production-grade, horizontally scalable URL shortener with **4 services**, **1 database**, **Redis**, **Kafka**, and **ZooKeeper**:
 
@@ -7,6 +7,8 @@ A production-grade, horizontally scalable URL shortener with **4 services**, **1
 - **Redirection Service** (behind a load balancer; horizontally scaled) — ultra-fast lookups from Redis; **fire-and-forget** click events to **Kafka**; issues 301/302
 - **Analytics Service** — consumes Kafka, enriches & aggregates events; exposes analytics APIs
 - **Infra** — **ZooKeeper** (ID coordination), **Kafka** (streaming), **Redis** (hot cache & counters), **DB** (metadata & durable aggregates)
+
+## Architecture Overview
 
 ![System Design](./arch.svg)
 
@@ -58,61 +60,6 @@ A production-grade, horizontally scalable URL shortener with **4 services**, **1
 - **Durability**: URL metadata in DB; analytics aggregates persisted.
 - **Observability**: Traces, metrics (SLIs/SLOs), structured logs, DLQ for bad events.
 - **Security/Privacy**: Rotated secrets, minimal PII, hashed IPs (salted), GDPR-aware retention.
-
----
-
-## Architecture Overview
-
-```mermaid
-flowchart LR
-  subgraph Clients/CDN
-    U[User Browser]
-    C[CDN/Edge]
-  end
-
-  U --> C
-
-  subgraph Auth Plane
-    A[Auth Service\n(JWT issuance/validation)]
-  end
-
-  subgraph Create Flow (Write Path)
-    LBG[LB]
-    G1[URL Generate Service]
-    ZK[(ZooKeeper)]
-    DB[(Relational DB)]
-    R[(Redis)]
-  end
-
-  subgraph Redirect Flow (Read + Events)
-    LBR[LB]
-    RD1[Redirection Service]
-    K[(Kafka)]
-  end
-
-  subgraph Analytics
-    CONS1[Enricher Consumer]
-    CONS2[Counter/Aggregate Consumer]
-    R2[(Redis - Counters)]
-    DB2[(DB - Aggregates)]
-    AN[Analytics Service]
-  end
-
-  C -->|/auth/*| A
-  C -->|/api/urls| LBG --> G1
-  G1 <--> ZK
-  G1 --> DB
-  G1 --> R
-
-  C -->|/r/{code}| LBR --> RD1
-  RD1 -->|produce| K
-
-  K --> CONS1 --> CONS2
-  CONS2 --> R2
-  CONS2 --> DB2
-  AN --> R2
-  AN --> DB2
-```
 
 ---
 
