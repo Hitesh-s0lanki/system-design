@@ -8,7 +8,7 @@ A ticketing system is an online platform that allows users to browse, book, and 
 
 ## Functional Requirements
 
-### Users should be able to:
+Users should be able to:
 
 - Browse events and view available seats
 - Book/reserve tickets
