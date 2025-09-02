@@ -7,6 +7,10 @@
 - General users performing web searches
 - Internal analytics teams querying data
 
+## Architecture Overview
+
+![System Design](./arch.svg)
+
 ## Functional Requirements
 
 - Web Crawling : Discover and fetch web pages at scale
