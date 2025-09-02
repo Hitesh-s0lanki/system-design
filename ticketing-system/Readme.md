@@ -15,7 +15,9 @@ Users should be able to:
 - Get real-time seat availability
 - Pay for tickets securely
 - Receive email/SMS confirmations
-  Admins should be able to:
+
+Admins should be able to:
+
 - Create/manage events and venues
 - Define seat layouts and pricing
 
