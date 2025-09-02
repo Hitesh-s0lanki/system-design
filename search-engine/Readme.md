@@ -159,7 +159,7 @@ Coordination Strategy:
 - Content Normalization: Strip HTML, tokenize, remove stop words, apply stemming
 - Forward Index Generation: Stores docID → tokens + metadata
 - Inverted Index Generation: For each token, store list of docIDs with positions, frequencies
-- Rank Feature Extraction: Compute PageRank, TF-IDF, and freshness score
+- Rank Feature Extraction: Compute PageRank, TF-IDF and freshness score
 
 Indexes are partitioned and replicated across nodes
 
