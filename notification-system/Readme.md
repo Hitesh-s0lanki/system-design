@@ -13,7 +13,7 @@ The system should support:
 
 ## Architecture Overview
 
-![System Design](./arch.svg)
+![System Design Notification System](./arch.svg)
 
 ## Functional Requirements
 
